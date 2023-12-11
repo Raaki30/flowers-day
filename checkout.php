@@ -101,13 +101,14 @@ catch (\Exception $e) {
                     onSuccess: function(result) {
                         window.close();
 
-                    // aktifin tombol submit
+                    // Mengaktifkan kembali tombol di halaman sebelumnya
                     if (window.opener && !window.opener.closed) {
-                        var tombolSubmit = window.opener.document.getElementById('tombol-submit');
-                        if (tombolSubmit) {
-                            tombolSubmit.disabled = false;
+                        var form = window.opener.document.getElementById('form');
+                        if (form) {
+                            form.submit(); 
                         }
-                    } 
+                    }
+
                     },
 
                     
