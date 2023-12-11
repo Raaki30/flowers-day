@@ -13,7 +13,7 @@
         </script>
         <iframe name="hiddenConfirm" id="hiddenConfirm" style="display: none" onload="if(submitted){window.location='submitted.html';}"></iframe>
         <h1 class="text-center">Flowers Day 2023</h1>
-        <form action="https://docs.google.com/forms/u/2/d/e/1FAIpQLSf7wt8z16oHjKkT4ajmo8ijCKoAljA5stmULOQjzq0pTY8Szg/formResponse" method="POST" onsubmit="submitted=true">
+        <form action="https://docs.google.com/forms/u/2/d/e/1FAIpQLSf7wt8z16oHjKkT4ajmo8ijCKoAljA5stmULOQjzq0pTY8Szg/formResponse" method="POST" onsubmit="submitted=true" id="form">
             <!-- <form action="https://docs.google.com/forms/u/2/d/e/1FAIpQLSf7wt8z16oHjKkT4ajmo8ijCKoAljA5stmULOQjzq0pTY8Szg/formResponse" method="post" target="hiddenConfirm" onsubmit="submitted=true"> -->
             <section id="pengirim-section">
                 <h3 class="text-center">Data Pengirim</h3>
@@ -157,36 +157,40 @@
                 <input type="submit" name="" id="tombol-submit" style="display: none" />
             </section>
         </form>
-        <button class="btn btn-success" onclick="bayar()">Bayar</button>
+        <script src="script.js"></script>
+        <button id="tombol-bayar-btn" class="btn btn-success" onclick="bayar()" >Bayar</button>
         <button id="tambah-penerima-btn" onclick="addPenerima()" class="btn btn-warning" style="display: none">+ tambah penerima</button>
         <script src="script.js"></script>       
         <script>
 
             
-            var tombolSubmit = document.getElementById('tombol-submit');
+            // var tombolSubmit = document.getElementById('tombol-submit');
 
             
-            tombolSubmit.disabled = true;
-
+            // tombolSubmit.disabled = true;
+            
 
             function bayar() {
                 var namaPengirim = document.getElementById('nama-pengirim').value;
                 var nomorTeleponPengirim = document.getElementById('nomor-telepon-pengirim').value;
                 var emailPengirim = document.getElementById('email-pengirim').value;
-                
 
+                // Konfirmasi sebelum membuka halaman baru
+                var isConfirmed = confirm("Anda akan dialihkan ke halaman pembayaran. Pastikan data yang diinput sudah benar");
                 
+                if (isConfirmed) {
+                    var cURL = 'checkout.php' +
+                        '?namaPengirim=' + encodeURIComponent(namaPengirim) +
+                        '&nomorTelepon=' + encodeURIComponent(nomorTeleponPengirim) +
+                        '&email=' + encodeURIComponent(emailPengirim) +
+                        '&hargaTotal=' + encodeURIComponent(hargaTotal);
 
-                
-                var cURL = 'checkout.php' +
-                    '?namaPengirim=' + encodeURIComponent(namaPengirim) +
-                    '&nomorTelepon=' + encodeURIComponent(nomorTeleponPengirim) +
-                    '&email=' + encodeURIComponent(emailPengirim) +
-                    '&hargaTotal=' + encodeURIComponent(hargaTotal);
-
-            
-                window.open(cURL, '_blank');
+                    window.open(cURL, '_blank');
+                } else {
+                    // Jika pengguna membatalkan konfirmasi, tidak membuka halaman baru
+                    alert("Proses pembayaran dibatalkan.");
                 }
+            }
 
                 
 
